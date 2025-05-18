@@ -27,9 +27,23 @@ async def read_item(item_id: str, q: str | None = None, short: bool = False):
     item = {"item_id": item_id}
     if q:
         item.update({"q": q})
-    if not short:
+    if not short:#means short is false or not provided
         item.update(
             {"description": "This is an amazing item that has a long description"}
         )
     return item
 '''In this case, item_id is a path parameter, q is an optional query parameter, and short is a boolean query parameter. If short is set to True, the response will not include the long description. If it is set to False or not provided, the long description will be included.'''
+
+@app.get("/users/{user_id}/items/{item_id}")
+async def read_user_item(
+    user_id: int, item_id: str, q: str | None = None, short: bool = False):
+    item = {"item_id": item_id, "owner_id": user_id}
+    if q:
+        item.update({"q": q})
+    if not short:
+        item.update(
+            {"description": "This is an amazing item that has a long description"}
+        )
+    return item
+
+'''In this case, user_id is a path parameter, item_id is a path parameter, q is an optional query parameter, and short is a boolean query parameter. The response will include the user ID, item ID, and optionally the query and description based on the values of q and short.'''
